@@ -9,11 +9,13 @@ import {Observable} from 'rxjs';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  user$: Observable<User>;
-  constructor(private authService: AuthService) {
-  }
+  isLoggedIn$: Observable<boolean>;
+  isLoggedOut$: Observable<boolean>;
+
+  constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    this.user$ = this.authService.user$;
+    this.isLoggedIn$ = this.authService.isLoggedIn$;
+    this.isLoggedOut$ = this.authService.isLoggedOut$;
   }
 }
