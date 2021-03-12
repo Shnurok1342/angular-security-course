@@ -11,7 +11,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "hash": "node ./demos/hash.js"
+    "hash": "node ./demos/hash.js",
+    "verify-password": "node ./demos/verify-password.js"
   },
   "private": true,
   "dependencies": {
