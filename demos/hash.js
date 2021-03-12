@@ -2,6 +2,7 @@ var crypto = require('crypto');
 
 var password = 'monkey1';
 
+// see: Concept of Salting (https://en.wikipedia.org/wiki/Salt_(cryptography))
 var aliceSalt = 1;
 var bobSalt = 2;
 
