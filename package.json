@@ -5,8 +5,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config ./proxy.json ",
-    "start-server": "./node_modules/.bin/ts-node ./server/server.ts --secure",
-    "server": "./node_modules/.bin/nodemon  -w ./server --ext \".ts\" --exec \"npm run start-server\"",
+    "start-server": "ts-node ./server/server.ts --secure",
+    "server": "nodemon  -w ./server --ext \".ts\" --exec \"npm run start-server\"",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -48,7 +48,7 @@
     "karma-coverage-istanbul-reporter": "^1.2.1",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
-    "protractor": "~5.1.2",
+    "protractor": "^5.4.4",
     "ts-node": "~3.0.4",
     "tslint": "~5.3.2",
     "typescript": "~2.3.3"
