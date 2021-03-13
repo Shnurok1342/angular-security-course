@@ -31,6 +31,7 @@
     "express": "^4.17.1",
     "jasmine": "^3.6.4",
     "nodemon": "^1.11.0",
+    "password-validator": "^5.1.1",
     "rxjs": "^6.5.4",
     "tslib": "^2.1.0",
     "zone.js": "^0.11.4"
