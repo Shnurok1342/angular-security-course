@@ -10,6 +10,12 @@ class InMemoryDatabase {
   }
 
   createUser(email: string, passwordDigest: string) {
+    const usersPerEmail = _.keyBy(_.values(USERS), 'email');
+    if (usersPerEmail[email]) {
+      const message = `An user already exists with email ${email}`;
+      console.error(message);
+      throw new Error(message);
+    }
     this.userCounter = this.userCounter + 1;
     const id = this.userCounter;
     const user: DbUser = {
@@ -18,6 +24,7 @@ class InMemoryDatabase {
       passwordDigest
     };
     USERS[id] = user;
+    console.log(USERS);
 
     return user;
   }
