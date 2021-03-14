@@ -19,7 +19,8 @@
     "jwt-hs256": "node demos/JWT/jwt-hs256.js",
     "jwt-check-hs256": "node ./demos/JWT/jwt-check-hs256.js",
     "jwt-rs256": "node ./demos/JWT/jwt-rs256.js",
-    "jwt-check-rs256": "node ./demos/JWT/jwt-check-rs256.js"
+    "jwt-check-rs256": "node ./demos/JWT/jwt-check-rs256.js",
+    "csrf-server": "http-server -c-1 ."
   },
   "private": true,
   "dependencies": {
@@ -37,6 +38,7 @@
     "cookie-parser": "^1.4.5",
     "core-js": "^2.4.1",
     "express": "^4.17.1",
+    "http-server": "^0.12.3",
     "jasmine": "^3.6.4",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
