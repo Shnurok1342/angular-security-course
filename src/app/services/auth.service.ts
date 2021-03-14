@@ -33,6 +33,14 @@ export class AuthService {
       );
   }
 
+  login(email: string, password: string) {
+    return this.http.post<User>('api/login', {email, password})
+      .pipe(
+        shareReplay(),
+        tap(user => this.userSubject.next(user))
+      );
+  }
+
   logout() {
     return this.http.post('api/logout', null)
       .pipe(

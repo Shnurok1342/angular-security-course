@@ -28,6 +28,11 @@ class InMemoryDatabase {
 
     return user;
   }
+
+  findUserByEmail(email) {
+    const usersPerEmail = _.keyBy(_.values(USERS), 'email');
+    return usersPerEmail[email];
+  }
 }
 
 export const db = new InMemoryDatabase();
