@@ -15,7 +15,9 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "hash": "node ./demos/hash.js",
-    "verify-password": "node ./demos/verify-password.js"
+    "verify-password": "node ./demos/verify-password.js",
+    "jwt-hs256": "node demos/JWT/jwt-hs256.js",
+    "jwt-check-hs256": "node ./demos/JWT/jwt-check-hs256.js"
   },
   "private": true,
   "dependencies": {
@@ -34,6 +36,7 @@
     "core-js": "^2.4.1",
     "express": "^4.17.1",
     "jasmine": "^3.6.4",
+    "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
     "nodemon": "^1.11.0",
     "password-validator": "^5.1.1",
