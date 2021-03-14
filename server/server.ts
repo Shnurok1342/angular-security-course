@@ -5,6 +5,7 @@ import * as https from 'https';
 import {readAllLessons} from './read-all-lessons.route';
 import {AddressInfo} from 'net';
 import {createUser} from './create-user.route';
+import {getUser} from './get-user.route';
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
@@ -23,6 +24,7 @@ const options = commandLineArgs(optionDefinitions);
 
 // REST API
 app.route('/api/lessons').get(readAllLessons);
+app.route('/api/user').get(getUser);
 app.route('/api/signup').post(createUser);
 
 if (options.secure) {

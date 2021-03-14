@@ -1,7 +1,7 @@
 <div class="messages messages-error" *ngIf="errors?.length">
   <div class="messages-container">
     <div *ngFor="let error of errors">
-      {{ messagePerErrorCode[error] }}
+      {{ messagePerErrorCode[error] || error }}
     </div>
   </div>
 </div>
