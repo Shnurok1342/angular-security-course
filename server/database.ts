@@ -37,7 +37,6 @@ class InMemoryDatabase {
   findUserById(userId: string): DbUser {
     let user;
     if (userId) {
-      console.log('looking for userId ', userId);
       const users = _.values(USERS);
       user = _.find(users, u => u.id.toString() === userId);
       console.log('user data found:', user);

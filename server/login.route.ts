@@ -2,8 +2,7 @@ import {Request, Response} from 'express';
 import {db} from './database';
 import {DbUser} from './db-user';
 import * as argon2 from 'argon2';
-import {randomBytes} from './security.utils';
-import {sessionStore} from './session-store';
+import {createSessionToken} from './security.utils';
 
 export function login(req: Request, res: Response) {
   const credentials = req.body;
@@ -31,9 +30,5 @@ async function attemptLogin(credentials, user: DbUser) {
   if (!isPasswordValid) {
     throw new Error('Password Invalid');
   }
-  const sessionId = await randomBytes(32).then(bytes => bytes.toString('hex'));
-  console.log('sessionId:', sessionId);
-  sessionStore.createSession(sessionId, user);
-
-  return sessionId;
+  return createSessionToken(user.id.toString());
 }

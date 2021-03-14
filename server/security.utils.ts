@@ -3,8 +3,6 @@ const crypto = require('crypto');
 import * as jwt from 'jsonwebtoken';
 import * as fs from 'fs';
 
-const moment = require('moment');
-
 export const randomBytes = util.promisify(crypto.randomBytes);
 export const signJwn = util.promisify(jwt.sign);
 
