@@ -17,7 +17,9 @@
     "hash": "node ./demos/hash.js",
     "verify-password": "node ./demos/verify-password.js",
     "jwt-hs256": "node demos/JWT/jwt-hs256.js",
-    "jwt-check-hs256": "node ./demos/JWT/jwt-check-hs256.js"
+    "jwt-check-hs256": "node ./demos/JWT/jwt-check-hs256.js",
+    "jwt-rs256": "node ./demos/JWT/jwt-rs256.js",
+    "jwt-check-rs256": "node ./demos/JWT/jwt-check-rs256.js"
   },
   "private": true,
   "dependencies": {
