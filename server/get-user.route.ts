@@ -1,9 +1,8 @@
 import {Request, Response} from 'express';
-import {sessionStore} from './session-store';
+import {db} from './database';
 
 export function getUser(req: Request, res: Response) {
-  const sessionId = req.cookies['SESSION_ID'];
-  const user = sessionStore.findUserBySessionId(sessionId);
+  const user = db.findUserById(req['userId']);
   if (user) {
     res.status(200).json(user);
   } {

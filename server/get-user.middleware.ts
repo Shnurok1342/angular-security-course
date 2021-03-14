@@ -19,7 +19,7 @@ async function handleSessionCookie(jwt: string, req: Request) {
     const payload = await decodeJwt(jwt);
     req['userId'] = payload.sub;
   } catch (e) {
-    console.error('Error: Could not extract user from request', e);
+    console.log('Error: Could not extract user from request', e.message);
   }
 }
 
