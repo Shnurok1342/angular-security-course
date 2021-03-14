@@ -1,5 +1,4 @@
 import {AuthService} from './services/auth.service';
-import {User} from './model/user';
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 
@@ -17,5 +16,9 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.isLoggedIn$ = this.authService.isLoggedIn$;
     this.isLoggedOut$ = this.authService.isLoggedOut$;
+  }
+
+  logout() {
+    this.authService.logout().subscribe();
   }
 }

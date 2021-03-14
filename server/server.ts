@@ -6,6 +6,7 @@ import {readAllLessons} from './read-all-lessons.route';
 import {AddressInfo} from 'net';
 import {createUser} from './create-user.route';
 import {getUser} from './get-user.route';
+import {logout} from './logout.route';
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
@@ -26,6 +27,7 @@ const options = commandLineArgs(optionDefinitions);
 app.route('/api/lessons').get(readAllLessons);
 app.route('/api/user').get(getUser);
 app.route('/api/signup').post(createUser);
+app.route('/api/logout').post(logout);
 
 if (options.secure) {
   const httpsServer = https.createServer({

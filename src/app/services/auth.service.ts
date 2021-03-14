@@ -33,4 +33,11 @@ export class AuthService {
       );
   }
 
+  logout() {
+    return this.http.post('api/logout', null)
+      .pipe(
+        shareReplay(),
+        tap(() => this.userSubject.next(ANONYMOUS_USER))
+      );
+  }
 }
