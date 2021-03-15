@@ -3,7 +3,7 @@ import {Lesson} from '../model/lesson';
 import {Injectable} from '@angular/core';
 import {map} from 'rxjs/operators';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class LessonsService {
   constructor(private http: HttpClient) {}
 

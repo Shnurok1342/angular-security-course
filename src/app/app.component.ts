@@ -1,6 +1,7 @@
-import {AuthService} from './services/auth.service';
+import {AuthFacadeService} from './services/auth-facade.service';
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -11,14 +12,18 @@ export class AppComponent implements OnInit {
   isLoggedIn$: Observable<boolean>;
   isLoggedOut$: Observable<boolean>;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthFacadeService) {}
 
   ngOnInit() {
-    this.isLoggedIn$ = this.authService.isLoggedIn$;
-    this.isLoggedOut$ = this.authService.isLoggedOut$;
+    this.isLoggedIn$ = this.authService.isAuthenticated$;
+    this.isLoggedOut$ = this.isLoggedIn$.pipe(map(isLoggedIn => !isLoggedIn));
+  }
+
+  login() {
+    this.authService.login();
   }
 
   logout() {
-    this.authService.logout().subscribe();
+    this.authService.logout();
   }
 }
