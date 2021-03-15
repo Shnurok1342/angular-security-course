@@ -1,4 +1,4 @@
-import {db} from './database';
+import {db} from '../database';
 import {Request, Response} from 'express';
 
 export function readAllLessons(req: Request, res: Response) {

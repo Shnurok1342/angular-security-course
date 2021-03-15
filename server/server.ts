@@ -2,14 +2,15 @@ import * as express from 'express';
 import {Application} from 'express';
 import * as fs from 'fs';
 import * as https from 'https';
-import {readAllLessons} from './read-all-lessons.route';
+import {readAllLessons} from './routes/read-all-lessons.route';
 import {AddressInfo} from 'net';
-import {createUser} from './create-user.route';
-import {getUser} from './get-user.route';
-import {logout} from './logout.route';
-import {login} from './login.route';
-import {retrieveUserIdFromRequest} from './get-user.middleware';
-import {checkIfAuthenticated} from './auth.middleware';
+import {createUser} from './routes/create-user.route';
+import {getUser} from './routes/get-user.route';
+import {logout} from './routes/logout.route';
+import {login} from './routes/login.route';
+import {retrieveUserIdFromRequest} from './middlewares/get-user.middleware';
+import {checkIfAuthenticated} from './middlewares/auth.middleware';
+import {checkCsrfToken} from './middlewares/csrf.middleware';
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
@@ -32,7 +33,7 @@ app.route('/api/lessons').get(checkIfAuthenticated, readAllLessons);
 app.route('/api/user').get(getUser);
 app.route('/api/signup').post(createUser);
 app.route('/api/login').post(login);
-app.route('/api/logout').post(logout);
+app.route('/api/logout').post(checkIfAuthenticated, checkCsrfToken, logout);
 
 if (options.secure) {
   const httpsServer = https.createServer({

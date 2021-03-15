@@ -1,4 +1,4 @@
-import {DbUser} from './db-user';
+import {DbUser} from '../models/db-user';
 
 export const USERS: {[key: number]: DbUser} = {};
 

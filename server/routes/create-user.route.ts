@@ -1,8 +1,8 @@
 import {Request, Response} from 'express';
-import {db} from './database';
+import {db} from '../database';
 import * as argon2 from 'argon2';
-import {validatePassword} from './password-validation';
-import {createSessionToken, randomBytes} from './security.utils';
+import {validatePassword} from '../utils/password-validation';
+import {createCsrfToken, createSessionToken} from '../utils/security.utils';
 
 export function createUser(req: Request, res: Response) {
   const credentials = req.body;
@@ -10,21 +10,23 @@ export function createUser(req: Request, res: Response) {
   if (errors.length > 0) {
     res.status(400).json(errors);
   } else {
-    createUserAndSession(res, credentials).then(() => {});
+    createUserAndSession(res, credentials)
+      .then(() => {});
   }
 }
 
 async function createUserAndSession(res: Response, credentials) {
-  const passwordDigest = await argon2.hash(credentials.password);
   try {
+    const passwordDigest = await argon2.hash(credentials.password);
     const user = db.createUser(credentials.email, passwordDigest);
-    const sessionId = await randomBytes(32).then(bytes => bytes.toString('hex'));
-    console.log('sessionId:', sessionId);
     const sessionToken = await createSessionToken(user.id.toString());
+    const csrfToken = await createCsrfToken(sessionToken);
+    console.log('sessionToken:', sessionToken);
     res.cookie('SESSION_ID', sessionToken, { httpOnly: true, secure: true });
+    res.cookie('XSRF-TOKEN', csrfToken);
     res.status(200).json({id: user.id, email: user.email});
   } catch (e) {
     console.log(e.message);
-    res.status(400).json([e.message]);
+    res.status(500).json([e.message]);
   }
 }

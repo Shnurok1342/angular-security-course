@@ -1,8 +1,8 @@
 import {Request, Response} from 'express';
-import {db} from './database';
-import {DbUser} from './db-user';
+import {db} from '../database';
+import {DbUser} from '../models/db-user';
 import * as argon2 from 'argon2';
-import {createSessionToken} from './security.utils';
+import {createCsrfToken, createSessionToken} from '../utils/security.utils';
 
 export function login(req: Request, res: Response) {
   const credentials = req.body;
@@ -16,8 +16,10 @@ export function login(req: Request, res: Response) {
 
 async function loginAndBuildResponse(credentials, user: DbUser, res: Response) {
   try {
-    const sessionId = await attemptLogin(credentials, user);
-    res.cookie('SESSION_ID', sessionId, { httpOnly: true, secure: true });
+    const sessionToken = await attemptLogin(credentials, user);
+    const csrfToken = await createCsrfToken(sessionToken);
+    res.cookie('SESSION_ID', sessionToken, { httpOnly: true, secure: true });
+    res.cookie('XSRF-TOKEN', csrfToken);
     res.status(200).json({id: user.id, email: user.email});
   } catch (e) {
     console.log('Login failed');

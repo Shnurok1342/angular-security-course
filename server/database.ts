@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
-import {LESSONS, USERS} from './database-data';
-import {DbUser} from './db-user';
+import {LESSONS, USERS} from './data/database-data';
+import {DbUser} from './models/db-user';
 
 class InMemoryDatabase {
   userCounter = 0;

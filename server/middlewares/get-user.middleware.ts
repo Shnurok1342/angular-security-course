@@ -1,5 +1,5 @@
 import {NextFunction, Request, Response} from 'express';
-import {decodeJwt} from './security.utils';
+import {decodeJwt} from '../utils/security.utils';
 
 export function retrieveUserIdFromRequest(req: Request, res: Response, next: NextFunction) {
   const jwt = req.cookies['SESSION_ID'];
