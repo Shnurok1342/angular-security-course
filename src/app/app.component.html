@@ -11,7 +11,7 @@
           <a routerLink="/lessons">Lessons</a>
         </li>
         <li *ngIf="isLoggedOut$ | async">
-          <a>Sign Up</a>
+          <a (click)="signUp()">Sign Up</a>
         </li>
         <li *ngIf="isLoggedOut$ | async">
           <a (click)="login()">Login</a>

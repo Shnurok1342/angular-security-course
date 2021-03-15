@@ -11,4 +11,5 @@ export const environment = {
     clientId,
     redirectUri: window.location.origin,
   },
+  apiRoot: '/api/*'
 };

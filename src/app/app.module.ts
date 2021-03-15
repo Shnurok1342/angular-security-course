@@ -4,10 +4,12 @@ import {routesConfig} from './routes.config';
 import {ReactiveFormsModule} from '@angular/forms';
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 import {environment} from '../environments/environment';
 import {AuthModule} from '@auth0/auth0-angular';
+import {AuthLoadResolver} from './resolvers/auth-load.resolver';
+import {AuthHttpInterceptor} from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,25 @@ import {AuthModule} from '@auth0/auth0-angular';
     HttpClientModule,
     RouterModule.forRoot(routesConfig),
     ReactiveFormsModule,
-    AuthModule.forRoot({...environment.auth}),
+    AuthModule.forRoot(
+      {
+        ...environment.auth,
+        httpInterceptor: {
+          allowedList: [{
+            uri: environment.apiRoot
+          }]
+        }
+      },
+
+    ),
+  ],
+  providers: [
+    AuthLoadResolver,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthHttpInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent]
 })

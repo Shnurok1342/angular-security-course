@@ -19,6 +19,10 @@ export class AppComponent implements OnInit {
     this.isLoggedOut$ = this.isLoggedIn$.pipe(map(isLoggedIn => !isLoggedIn));
   }
 
+  signUp() {
+    this.authService.signUp();
+  }
+
   login() {
     this.authService.login();
   }
