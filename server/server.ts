@@ -4,19 +4,38 @@ import * as fs from 'fs';
 import * as https from 'https';
 import {readAllLessons} from './routes/read-all-lessons.route';
 import {AddressInfo} from 'net';
+
 const bodyParser = require('body-parser');
+const commandLineArgs = require('command-line-args');
+const jwt = require('express-jwt');
+const jwksRsa = require('jwks-rsa');
 
 const app: Application = express();
 
 app.use(bodyParser.json());
 
-const commandLineArgs = require('command-line-args');
-
 const optionDefinitions = [
-    { name: 'secure', type: Boolean,  defaultOption: true },
+    { name: 'secure', type: Boolean, defaultOption: true },
 ];
 
 const options = commandLineArgs(optionDefinitions);
+const checkIfAuthenticated = jwt({
+  algorithms: ['RS256'],
+  secret: jwksRsa.expressJwtSecret({
+    jwksUri: 'https://dev-jl5qaipz.eu.auth0.com/.well-known/jwks.json',
+    cache: true,
+    rateLimit: true
+  })
+});
+
+app.use(checkIfAuthenticated);
+app.use((err, req, res, next) => {
+  if (err && err.name === 'UnauthorizedError') {
+    res.status(err.status).json({ message: err.message });
+  } else {
+    next();
+  }
+});
 
 // REST API
 app.route('/api/lessons').get(readAllLessons);

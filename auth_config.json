@@ -1,4 +1,5 @@
 {
   "domain": "dev-jl5qaipz.eu.auth0.com",
-  "clientId": "6Q7EQZIOS0OEoofU4YipcZQeMcdqmc6W"
+  "clientId": "6Q7EQZIOS0OEoofU4YipcZQeMcdqmc6W",
+  "audience": "https://dev-jl5qaipz.eu.auth0.com/api/v2/"
 }
