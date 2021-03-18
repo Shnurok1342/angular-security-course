@@ -26,7 +26,10 @@ import {AuthHttpInterceptor} from './interceptors/auth.interceptor';
         ...environment.auth,
         httpInterceptor: {
           allowedList: [{
-            uri: environment.apiRoot
+            uri: environment.apiRoot,
+            tokenOptions: {
+              useIdToken: true
+            }
           }]
         }
       },

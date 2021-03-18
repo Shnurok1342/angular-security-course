@@ -1,16 +1,15 @@
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {AuthFacadeService} from '../services/auth-facade.service';
 import {from, iif, Observable, of} from 'rxjs';
-import {ApiRouteDefinition, AuthClientConfig, HttpInterceptorConfig, isHttpInterceptorRouteConfig} from '@auth0/auth0-angular';
-import {concatMap, first, pluck, switchMap} from 'rxjs/operators';
+import {ApiRouteDefinition, AuthClientConfig, AuthService, HttpInterceptorConfig, isHttpInterceptorRouteConfig} from '@auth0/auth0-angular';
+import {catchError, concatMap, first, map, pluck, switchMap} from 'rxjs/operators';
 import {GetTokenSilentlyOptions} from '@auth0/auth0-spa-js';
 
 @Injectable({providedIn: 'root'})
 export class AuthHttpInterceptor implements HttpInterceptor {
   constructor(
     private configFactory: AuthClientConfig,
-    private authService: AuthFacadeService
+    private auth: AuthService
   ) { }
 
   intercept(
@@ -30,8 +29,9 @@ export class AuthHttpInterceptor implements HttpInterceptor {
           // outgoing request
           of(route).pipe(
             pluck('tokenOptions'),
-            concatMap((options: GetTokenSilentlyOptions) =>
-              this.authService.getAccessTokenSilently(options)
+            concatMap((options: GetTokenSilentlyOptions & { useIdToken?: boolean }) => options?.useIdToken
+              ? this.auth.idTokenClaims$.pipe(map(t => t.__raw), catchError(() => of(undefined)))
+              : this.auth.getAccessTokenSilently(options).pipe(catchError(() => of(undefined)))
             ),
             switchMap((token: string | undefined) => {
               // If token was not found then pass request without attaching it

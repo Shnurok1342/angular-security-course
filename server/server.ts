@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import * as https from 'https';
 import {readAllLessons} from './routes/read-all-lessons.route';
 import {AddressInfo} from 'net';
+import {userInfo} from './routes/user-info.route';
 
 const bodyParser = require('body-parser');
 const commandLineArgs = require('command-line-args');
@@ -39,6 +40,8 @@ app.use((err, req, res, next) => {
 
 // REST API
 app.route('/api/lessons').get(readAllLessons);
+app.route('/api/userinfo').put(userInfo);
+
 
 if (options.secure) {
   const httpsServer = https.createServer({
