@@ -12,7 +12,9 @@ const RSA_PUBLIC_KEY = fs.readFileSync('./demos/JWT/public.key');
 const SESSION_DURATION = 7200;
 
 export async function createSessionToken(user: DbUser) {
-  return signJwt({},
+  return signJwt({
+    roles: user.roles
+    },
     RSA_PRIVATE_KEY, {
       algorithm: 'RS256',
       expiresIn: SESSION_DURATION,
