@@ -12,6 +12,7 @@ import {SignupComponent} from './signup/signup.component';
 import {LessonsService} from './services/lessons.service';
 import {AuthService} from './services/auth.service';
 import {RbacAllowDirective} from './directives/rbac-allow.directive';
+import {adminsOnlyGuardFactoryProvider} from './guards/authorization.guard';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {RbacAllowDirective} from './directives/rbac-allow.directive';
   ],
   providers: [
     LessonsService,
-    AuthService
+    AuthService,
+    adminsOnlyGuardFactoryProvider
   ],
   bootstrap: [AppComponent]
 })
