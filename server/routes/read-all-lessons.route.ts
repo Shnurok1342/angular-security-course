@@ -1,6 +1,5 @@
 import {db} from '../database';
-import {Request, Response} from 'express';
 
-export function readAllLessons(req: Request, res: Response) {
-  res.status(200).json({ lessons: db.readAllLessons() });
+export function readAllLessons(req, res) {
+  res.status(200).json({lessons: db.readAllLessons()});
 }

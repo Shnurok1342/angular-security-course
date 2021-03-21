@@ -3,40 +3,45 @@ import {LESSONS, USERS} from './data/database-data';
 import {DbUser} from './models/db-user';
 
 class InMemoryDatabase {
-  userCounter = 0;
+  userCounter = 2;
 
   readAllLessons() {
     return _.values(LESSONS);
   }
 
   createUser(email: string, passwordDigest: string) {
-    const usersPerEmail = _.keyBy(_.values(USERS), 'email');
+    const usersPerEmail = _.keyBy( _.values(USERS), 'email' );
     if (usersPerEmail[email]) {
-      const message = `An user already exists with email ${email}`;
+      const message = 'An user already exists with email ' + email;
       console.error(message);
       throw new Error(message);
     }
-    this.userCounter = this.userCounter + 1;
+    this.userCounter++;
     const id = this.userCounter;
     const user: DbUser = {
       id,
       email,
-      passwordDigest
+      passwordDigest,
+      roles: ['STUDENT']
     };
     USERS[id] = user;
     console.log(USERS);
-
     return user;
   }
 
-  findUserByEmail(email) {
-    const usersPerEmail = _.keyBy(_.values(USERS), 'email');
-    return usersPerEmail[email];
+
+  findUserByEmail(email: string): DbUser {
+    console.log('Finding user by email:', email);
+    const users = _.values(USERS);
+    const user = _.find(users, u => u.email === email);
+    console.log('user retrieved:', user);
+    return user;
   }
 
   findUserById(userId: string): DbUser {
     let user;
     if (userId) {
+      console.log('looking for userId ', userId);
       const users = _.values(USERS);
       user = _.find(users, u => u.id.toString() === userId);
       console.log('user data found:', user);

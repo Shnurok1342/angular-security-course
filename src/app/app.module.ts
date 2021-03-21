@@ -4,45 +4,35 @@ import {routesConfig} from './routes.config';
 import {ReactiveFormsModule} from '@angular/forms';
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HttpClientXsrfModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
-import {environment} from '../environments/environment';
-import {AuthModule} from '@auth0/auth0-angular';
-import {AuthLoadResolver} from './resolvers/auth-load.resolver';
-import {AuthHttpInterceptor} from './interceptors/auth.interceptor';
+import {AdminComponent} from './admin/admin.component';
+import {LoginComponent} from './login/login.component';
+import {SignupComponent} from './signup/signup.component';
+import {LessonsService} from './services/lessons.service';
+import {AuthService} from './services/auth.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LessonsComponent
+    LessonsComponent,
+    LoginComponent,
+    SignupComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    HttpClientXsrfModule.withOptions({
+      cookieName: 'XSRF-TOKEN',
+      headerName:  'x-xsrf-token'
+    }),
     RouterModule.forRoot(routesConfig),
-    ReactiveFormsModule,
-    AuthModule.forRoot(
-      {
-        ...environment.auth,
-        httpInterceptor: {
-          allowedList: [{
-            uri: environment.apiRoot,
-            tokenOptions: {
-              useIdToken: true
-            }
-          }]
-        }
-      },
-
-    ),
+    ReactiveFormsModule
   ],
   providers: [
-    AuthLoadResolver,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthHttpInterceptor,
-      multi: true,
-    },
+    LessonsService,
+    AuthService
   ],
   bootstrap: [AppComponent]
 })
