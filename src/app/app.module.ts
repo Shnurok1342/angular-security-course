@@ -11,6 +11,7 @@ import {LoginComponent} from './login/login.component';
 import {SignupComponent} from './signup/signup.component';
 import {LessonsService} from './services/lessons.service';
 import {AuthService} from './services/auth.service';
+import {RbacAllowDirective} from './directives/rbac-allow.directive';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import {AuthService} from './services/auth.service';
     LessonsComponent,
     LoginComponent,
     SignupComponent,
-    AdminComponent
+    AdminComponent,
+    RbacAllowDirective
   ],
   imports: [
     BrowserModule,
