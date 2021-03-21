@@ -11,6 +11,9 @@ import {checkCsrfToken} from './middleware/csrf.middleware';
 import {logout} from './routes/logout.route';
 import {login} from './routes/login.route';
 import {AddressInfo} from 'net';
+import {checkIfAuthorized} from './middleware/authorization.middleware';
+import * as _ from 'lodash';
+import { loginAsUser } from './routes/login-as-user.route';
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
@@ -29,7 +32,10 @@ const options = commandLineArgs(optionDefinitions);
 
 // REST API
 app.route('/api/lessons')
-  .get(checkIfAuthenticated, readAllLessons);
+  .get(
+    checkIfAuthenticated,
+    _.partial(checkIfAuthorized, ['STUDENT']),
+    readAllLessons);
 
 app.route('/api/signup')
   .post(createUser);
@@ -42,6 +48,12 @@ app.route('/api/logout')
 
 app.route('/api/login')
   .post(login);
+
+app.route('/api/admin')
+  .post(
+    checkIfAuthenticated,
+    _.partial(checkIfAuthorized, ['ADMIN']),
+    loginAsUser);
 
 if (options.secure) {
   const httpsServer = https.createServer({
